@@ -375,14 +375,15 @@ PlayMusic.prototype.addPlayList = function (playlistName, callback) {
 /**
 * Adds a track to end of a playlist.
 *
-* @param songIds array - an array of song ids
+* @param songId string - the song id. Or an array of song ids
 * @param playlistId int - the playlist id
 * @param callback function(err, mutationStatus) - success callback
 */
-PlayMusic.prototype.addTracksToPlayList = function (songIds, playlistId, callback) {
+PlayMusic.prototype.addTrackToPlayList = function (songIds, playlistId, callback) {
     var that = this;
+    var songIdsArray = songIds.constructor === Array ? songIds : [songIds];
     var mutations = [];
-    songIds.forEach(function(songId) {
+    songIdsArray.forEach(function(songId) {
         mutations.push(
             {
                 "create": {
@@ -410,7 +411,7 @@ PlayMusic.prototype.addTracksToPlayList = function (songIds, playlistId, callbac
 /**
 * Increments track's playcount
 *
-* @param songId int - the song id. See http://bit.ly/1L4U6oK for id requirements.
+* @param songId string - the song id. See http://bit.ly/1L4U6oK for id requirements.
 * @param callback function(err, mutationStatus) - success callback
 */
 PlayMusic.prototype.incrementTrackPlaycount = function (songId, callback) {
@@ -437,13 +438,14 @@ PlayMusic.prototype.incrementTrackPlaycount = function (songId, callback) {
 /**
 * Removes given entry ids from playlist entries
 *
-* @param entryIds array - the entry ids. You can get this from getPlayListEntries
+* @param entryId int - the entry id. Or an array of entry ids. You can get this from getPlayListEntries
 * @param callback function(err, mutationStatus) - success callback
 */
-PlayMusic.prototype.removePlayListEntries = function (entryIds, callback) {
+PlayMusic.prototype.removePlayListEntry = function (entryIds, callback) {
     var that = this;
+    var entryIdsArray = entryIds.constructor === Array ? entryIds : [entryIds];
     var mutations = [];
-    entryIds.forEach(function(entryId) {
+    entryIdsArray.forEach(function(entryId) {
         mutations.push({ "delete": entryId });
     });
 
